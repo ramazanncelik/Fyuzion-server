@@ -8,7 +8,7 @@ import { WebSocketServer } from 'ws';
 import { useServer } from 'graphql-ws/lib/use/ws';
 import bodyParser from 'body-parser';
 import cors from 'cors';
-import dotenv from 'dotenv'
+import dotenv from 'dotenv';
 dotenv.config();
 import typeDefs from '../graphql-utils/typeDefs.js';
 import resolvers from '../graphql-utils/resolvers.js';
