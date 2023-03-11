@@ -33,9 +33,16 @@ const typeDefs = `
     user: User!
     post: Post!
   }
+
+  input LoginInput{
+    Email: String!
+    Password: String!
+  }
+
   type Query {
     users: [User!]!
     user(_id: ID!): User!
+    login(data: LoginInput): User!
     posts: [Post!]!
     post(_id: ID!): Post!
     comments: [Comment!]!

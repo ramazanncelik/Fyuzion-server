@@ -11,7 +11,18 @@ const Query = {
 
     //Get Single User by ID
     user: async (_, args) => {
-        const user = await User.findById(args.id);
+        const user = await User.findById(args._id);
+
+        console.log(args._id)
+
+        if (!user) {
+            throw "User not found";
+        }
+
+        return user;
+    },
+    login: async (_, args) => {
+        const user = await User.findOne(args.data);
 
         if (!user) {
             throw "User not found";
