@@ -1,4 +1,4 @@
-import pubSub from '../pubSub.js'
+import pubSub from '../pubsub.js'
 import { withFilter } from "graphql-subscriptions";
 
 const Subscription = {
