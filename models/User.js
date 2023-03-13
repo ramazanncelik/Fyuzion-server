@@ -21,6 +21,10 @@ const UserSchema = new Schema({
         type: String,
         required: false
     },
+    PhoneNumber: {
+        type: String,
+        required: false
+    },
     Biography: {
         type: String,
         required: false

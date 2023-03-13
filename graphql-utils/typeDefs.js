@@ -6,6 +6,7 @@ const typeDefs = `
     Password: String!
     ImageUrl: String!
     Name: String
+    PhoneNumber: String
     Biography: String
     Website: String
     EmailVerify: Boolean
@@ -61,6 +62,7 @@ const typeDefs = `
     Password: String!
     ImageUrl: String!
     Name: String
+    PhoneNumber: String
     Biography: String
     Website: String
     EmailVerify: Boolean
@@ -73,6 +75,7 @@ const typeDefs = `
     Password: String
     ImageUrl: String
     Name: String
+    PhoneNumber: String
     Biography: String
     Website: String
     OnlineStatus: Boolean
