@@ -17,13 +17,17 @@ const UserSchema = new Schema({
         type: String,
         required: true
     },
+    Name: {
+        type: String,
+        required: false
+    },
     Biography: {
         type: String,
-        required: true
+        required: false
     },
     Website: {
         type: String,
-        required: true
+        required: false
     },
     EmailVerify: {
         type: Boolean,
