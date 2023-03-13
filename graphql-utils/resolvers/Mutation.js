@@ -8,54 +8,60 @@ const Mutation = {
     createUser: async (_, { data }) => {
         try {
             const user = new User(data);
-            user.save();
-            pubSub.publish("userCreated", { userCreated: user });
-            return user;
+            const findEmailUser = await User.findOne({ Email: data.Email });
+            const findNickNameUser = await User.findOne({ NickName: data.NickName });
+            if (findEmailUser || findNickNameUser) {
+                return false;
+            } else {
+                await user.save();
+                pubSub.publish("userCreated", { userCreated: user });
+                return true;
+            }
         } catch (error) {
             return error;
         }
     },
-    updateUser: async (_, { data }) => {
+    updateUser: async (_, { _id, data }) => {
         try {
-            await User.findOneAndUpdate(data._id, { ...data });
-            const user = await User.findById(data._id);
-            pubSub.publish("userUpdated", { userUpdated: user });
-            return user;
+            if (data.NickName) {
+                const findNickNameUser = await User.findOne({ NickName: data.NickName });
+                if (findNickNameUser) {
+                    console.log("Kullanıcı adı kullanımda.");
+                    return false;
+                } else {
+                    const user = await User.findByIdAndUpdate(_id, data, { new: true });
+                    pubSub.publish("userUpdated", { userUpdated: user });
+                    return true;
+                }
+            } else {
+                const user = await User.findByIdAndUpdate(_id, data, { new: true });
+                pubSub.publish("userUpdated", { userUpdated: user });
+                return true;
+            }
         } catch (error) {
-            return error;
+            return false;
         }
-    },
-    deleteUser: async (_, { data }) => {
-        try {
-            const user = await User.findById(data._id);
-            await User.findOneAndDelete(data._id);
-            pubSub.publish("userDeleted", { userUpdated: user });
-            return user;
-        } catch (error) {
-            return error;
-        }
-    },
-    deleteAllUser: async (_, __) => {
-        const deleteUsers = await User.find();
-        console.log(deleteUsers);
-        for (let i = 0; i < deleteUsers.length; i++) {
-            User.findByIdAndDelete(deleteUsers[i]._id).exec();
-        }
-        const users = await User.find();
-        pubSub.publish("userDeletedAll", { userDeletedAll: users.length });
-        return users.length;
     },
     // Post
-    createPost: (_, { data }) => {
+    createPost: async (_, { data }) => {
         const post = new Post(data);
-        post.save();
-        pubSub.publish('postCreated', { postCreated: post });
-        pubSub.publish('postCount', { postCount: posts.length });
-        return post;
+        const newPost = await post.save();
+        const user = User.findById(data.OwnerId);
+        if (newPost) {
+            if (user) {
+                pubSub.publish("postCreated", { postCreated: newPost });
+                return newPost;
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
+
     },
     updatePost: async (_, { data }) => {
         try {
-            await Post.findOneAndUpdate(data._id, { ...data });
+            await Post.findByIdAndUpdate(data._id, { ...data });
             const post = await Post.findById(data._id);
             pubSub.publish("postUpdated", { postUpdated: post });
             return post;
@@ -75,7 +81,6 @@ const Mutation = {
     },
     deleteAllPost: async (_, __) => {
         const deletePosts = await Post.find();
-        console.log(deletePosts);
         for (let i = 0; i < deletePosts.length; i++) {
             Post.findByIdAndDelete(deletePosts[i]._id).exec();
         }

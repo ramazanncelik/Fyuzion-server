@@ -17,13 +17,18 @@ const typeDefs = `
   }
   type Post {
     _id: ID!
-    title: String!
-    description: String
-    short_description: String
-    cover: String
-    user_id: String!
+    OwnerId: String!
+    Description: String!
+    PostType: String!
+    Like: Int!
+    Comment: Int!
+    Files: [String!]
+    FullDate: String!
+    Date: String!
+    Time: String!
+    Month: String!
     user: User!
-    comments: [Comment!]!
+    comments: [Comment!]
   }
   type Comment {
     _id: ID!
@@ -40,12 +45,12 @@ const typeDefs = `
   }
 
   type Query {
-    users: [User!]!
+    users: [User!]
     user(_id: ID!): User!
     login(data: LoginInput): User!
-    posts: [Post!]!
+    posts: [Post!]
     post(_id: ID!): Post!
-    comments: [Comment!]!
+    comments: [Comment!]
     comment(_id: ID!): Comment!
   }
 
@@ -64,7 +69,6 @@ const typeDefs = `
     MyFollowed: Int
   } 
   input UpdateUserInput {
-    _id: ID!
     NickName: String
     Password: String
     ImageUrl: String
@@ -75,24 +79,23 @@ const typeDefs = `
     Follower: Int
     MyFollowed: Int
   } 
-  input DeleteUserInput {
-    _id: ID!
-  }
 
   # Post #
   input CreatePostInput {
-    title: String!
-    user_id: String!
-    description: String
-    short_description: String
-    cover: String
+    OwnerId: String!
+    Description: String!
+    PostType: String!
+    Like: Int!
+    Files: [String!]
+    Comment: Int!
+    FullDate: String!
+    Date: String!
+    Time: String!
+    Month: String!
   } 
   input UpdatePostInput {
-    _id: ID!
-    title: String!
-    description: String
-    short_description: String
-    cover: String
+    Like: Int
+    Comment: Int
   } 
   input DeletePostInput {
     _id: ID!
@@ -114,10 +117,8 @@ const typeDefs = `
   type Mutation {
 
     # User #
-    createUser(data: CreateUserInput): User
-    updateUser(data: UpdateUserInput): User
-    deleteUser(data: DeleteUserInput): User
-    deleteAllUser: Int!
+    createUser(data: CreateUserInput): Boolean!
+    updateUser(_id: ID!, data: UpdateUserInput): Boolean!
 
     # Post #
     createPost(data: CreatePostInput): Post
@@ -136,12 +137,12 @@ const typeDefs = `
   type Subscription {
     # User #
     userCreated: User!
-    userUpdated: User!
+    userUpdated(user_id: ID!): User!
     userDeleted: User!
     userDeletedAll: Int!
 
     # Post #
-    postCreated(user_id: ID): Post!
+    postCreated(user_id: ID!): Post!
     postUpdated: Post!
     postDeleted: Post!
     postDeletedAll: Int!

@@ -3,11 +3,11 @@ import User from "../../models/User.js";
 
 const Post = {
     user: async (parent) => {
-        const user = await User.findById(parent.user_id);
+        const user = await User.findById(parent.OwnerId);
         return user;
     },
     comments: async (parent) => {
-        const comments = await Comment.find({ post_id: parent._id });
+        const comments = await Comment.find({ Post_id: parent._id });
         return comments;
     },
 };

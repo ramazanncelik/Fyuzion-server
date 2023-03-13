@@ -1,23 +1,43 @@
 import mongoose from 'mongoose';
 const Schema = mongoose.Schema;
 const PostSchema = new Schema({
-    title: {
+    OwnerId: {
         type: String,
         required: true
     },
-    description: {
+    Description: {
         type: String,
         required: true
     },
-    short_description: {
+    PostType: {
         type: String,
         required: true
     },
-    cover: {
+    Files: {
+        type: Array,
+        required: false
+    },
+    Like: {
+        type: Number,
+        required: true
+    },
+    Comment: {
+        type: Number,
+        required: true
+    },
+    FullDate: {
         type: String,
         required: true
     },
-    user_id: {
+    Date: {
+        type: String,
+        required: true
+    },
+    Time: {
+        type: String,
+        required: true
+    },
+    Month: {
         type: String,
         required: true
     },

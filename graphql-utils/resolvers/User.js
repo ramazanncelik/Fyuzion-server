@@ -3,7 +3,7 @@ import Post from "../../models/Post.js";
 
 const User = {
     posts: async (parent) => {
-        const posts = await Post.find({ user_id: parent._id });
+        const posts = await Post.find({ OwnerId: parent._id });
         return posts;
     },
     comments: async (parent) => {

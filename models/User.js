@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 const Schema = mongoose.Schema;
 const UserSchema = new Schema({
-    Email:{
+    Email: {
         type: String,
         required: true
     },
@@ -17,29 +17,29 @@ const UserSchema = new Schema({
         type: String,
         required: true
     },
-    Biography:{
+    Biography: {
         type: String,
-        required: false
+        required: true
     },
     Website: {
         type: String,
-        required: false
+        required: true
     },
-    EmailVerify:{
+    EmailVerify: {
         type: Boolean,
-        required: false
+        required: true
     },
     OnlineStatus: {
         type: Boolean,
-        required: false
+        required: true
     },
     Follower: {
         type: Number,
-        required: false
+        required: true
     },
     MyFollowed: {
         type: Number,
-        required: false
+        required: true
     }
 });
 

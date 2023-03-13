@@ -1,4 +1,4 @@
-import pubSub from '../pubsub.js'
+import pubSub from '../pubSub.js'
 import { withFilter } from "graphql-subscriptions";
 
 const Subscription = {
@@ -11,21 +11,14 @@ const Subscription = {
     },
     userUpdated: {
         // More on pubSub below
-        subscribe: () => {
-            return pubSub.asyncIterator(['userUpdated']);
-        }
-    },
-    userDeleted: {
-        // More on pubSub below
-        subscribe: () => {
-            return pubSub.asyncIterator(['userDeleted']);
-        }
-    },
-    userDeletedAll: {
-        // More on pubSub below
-        subscribe: () => {
-            return pubSub.asyncIterator(['userDeletedAll']);
-        }
+        subscribe: withFilter(
+            () => {
+                return pubSub.asyncIterator(['userUpdated']);
+            },
+            (payload, variables) => {
+                return payload.userUpdated._id === variables.user_id;
+            }
+        )
     },
 
 
@@ -37,7 +30,7 @@ const Subscription = {
                 return pubSub.asyncIterator(['postCreated']);
             },
             (payload, variables) => {
-                return variables.user_id ? payload.postCreated.user_id === variables.user_id : true;
+                return variables.user_id ? payload.postCreated.OwnerId === variables.user_id : true;
             }
         )
     },
