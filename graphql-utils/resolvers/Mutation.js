@@ -26,8 +26,13 @@ const Mutation = {
             if (data.NickName) {
                 const findNickNameUser = await User.findOne({ NickName: data.NickName });
                 if (findNickNameUser) {
-                    console.log("Kullanıcı adı kullanımda.");
-                    return false;
+                    if (_id == findNickNameUser._id) {
+                        const user = await User.findByIdAndUpdate(_id, data, { new: true });
+                        pubSub.publish("userUpdated", { userUpdated: user });
+                        return true;
+                    } else {
+                        return false;
+                    }
                 } else {
                     const user = await User.findByIdAndUpdate(_id, data, { new: true });
                     pubSub.publish("userUpdated", { userUpdated: user });
