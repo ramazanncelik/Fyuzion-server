@@ -1,6 +1,7 @@
 import { RedisPubSub } from 'graphql-redis-subscriptions';
 import Redis from 'ioredis';
 import dotenv from 'dotenv';
+import { PubSub } from 'graphql-subscriptions';
 dotenv.config();
 
 const options = {
@@ -18,4 +19,6 @@ const pubSub = new RedisPubSub({
   subscriber: new Redis(options)
 });
 
-export default pubSub;
+const pubsub = new PubSub();
+
+export default pubsub;
