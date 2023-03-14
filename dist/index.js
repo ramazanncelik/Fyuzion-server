@@ -21,6 +21,7 @@ const schema = makeExecutableSchema({ typeDefs, resolvers });
 // server and the ApolloServer to this HTTP server.
 const app = express();
 const httpServer = createServer(app);
+app.use(express.json({ limit: '50mb' }));
 // Create our WebSocket server using the HTTP server we just set up.
 const wsServer = new WebSocketServer({
     server: httpServer,
