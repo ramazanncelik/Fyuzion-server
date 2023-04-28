@@ -1,0 +1,7 @@
+# dependencies
+/node_modules
+/graphql-utils
+/models
+
+# env files
+.env
