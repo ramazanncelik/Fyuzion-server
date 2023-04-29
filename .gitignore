@@ -3,7 +3,7 @@
 /graphql-utils
 /models
 /src
-/dist
+/dist 
 
 # env files
 .env
