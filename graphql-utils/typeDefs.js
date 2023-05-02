@@ -297,7 +297,7 @@ const typeDefs = `
     To: String!
     Type: String!
     LastMessage: String
-    LastOwner: String
+    LastMessageOwner: String
     FullDate: String!
     Date: String!
     Time: String!
@@ -307,7 +307,7 @@ const typeDefs = `
   input UpdateChatInput{
     Type: String!
     LastMessage: String
-    LastOwner: String!
+    LastMessageOwner: String!
     FullDate: String!
     Date: String!
     Time: String!
