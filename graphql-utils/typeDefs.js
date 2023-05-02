@@ -360,7 +360,7 @@ const typeDefs = `
 
     # Chat #
     createChat(data: CreateChatInput!): Boolean!
-    updateChat(data: UpdateChatInput!): Boolean!
+    updateChat(chatData: ChatInput!, data: UpdateChatInput!): Boolean!
     deleteChat(chat_id: ID!): Boolean!
   }
 

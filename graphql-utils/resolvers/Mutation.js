@@ -326,10 +326,15 @@ const Mutation = {
             return false;
         }
     },
-    updateChat: async (_, { chat_id, data }) => {
-        const chat = await Chat.findByIdAndUpdate(chat_id, data, { new: true });
-        if (chat) {
-            return true;
+    updateChat: async (_, { chatData, data }) => {
+        const fromChat = await Chat.findOneAndUpdate(chatData, data, { new: true });
+        const toChat = await Chat.findOneAndUpdate({ From: chatData.To, To: chatData.From }, data, { new: true });
+        if (fromChat) {
+            if (toChat) {
+                return true;
+            } else {
+                return false;
+            }
         } else {
             return false;
         }
