@@ -122,6 +122,19 @@ const Subscription = {
             }
         )
     },
+
+    // Chat
+    chatCreated: {
+        // More on pubSub below
+        subscribe: withFilter(
+            () => {
+                return pubSub.asyncIterator(['chatCreated']);
+            },
+            (payload, variables) => {
+                return variables.user_id ? payload.chatCreated.From == variables.user_id : true;
+            }
+        )
+    },
 };
 
 export default Subscription;

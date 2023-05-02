@@ -105,6 +105,21 @@ const typeDefs = `
     fromUser: User!
   }
 
+  type Chat {
+    _id: ID!
+    From: String!
+    To: String!
+    Type: String!
+    LastMessage: String!
+    LastMessageOwner: String!
+    FullDate: String!
+    Date: String!
+    Time: String!
+    Month: Int!
+    toUser: User!
+    lastMessageOwner: User!
+  }
+
   input LoginInput{
     Email: String!
     Password: String!
@@ -119,6 +134,11 @@ const typeDefs = `
     From: String!
     To: String!
     Type: String!
+  }
+
+  input ChatInput{
+    From: String!
+    To: String!
   }
 
   type Query {
@@ -139,7 +159,8 @@ const typeDefs = `
     savedPosts(user_id: ID!): [SavedPost!]
     savedPost(data: SavedPostInput!): SavedPost
     messages(chat_id: String!): [Message!]
-    message(message_id: ID!): Message
+    chats(user_id: String!): [Chat!]
+    chat(data: ChatInput!): Chat
   }
 
   # User #
@@ -249,6 +270,7 @@ const typeDefs = `
     Month: Int!
   }
 
+  # Message #
   input CreateMessageInput {
     From: String!
     To: String!
@@ -267,6 +289,34 @@ const typeDefs = `
     from: String
     to: String
     time: String
+  }
+
+  # Chat #
+  input CreateChatInput {
+    From: String!
+    To: String!
+    Type: String!
+    LastMessage: String
+    LastOwner: String
+    FullDate: String!
+    Date: String!
+    Time: String!
+    Month: Int!
+  }
+
+  input UpdateChatInput{
+    Type: String!
+    LastMessage: String
+    LastOwner: String!
+    FullDate: String!
+    Date: String!
+    Time: String!
+    Month: Int!
+  }
+
+  input DeleteChatInput{
+    From: String!
+    To: String
   }
 
   # Mutation
@@ -307,6 +357,11 @@ const typeDefs = `
     # Message #
     createMessage(data: CreateMessageInput!): Boolean!
     deleteMessage(data: DeleteMessageInput!): Boolean!
+
+    # Chat #
+    createChat(data: CreateChatInput!): Boolean!
+    updateChat(data: UpdateChatInput!): Boolean!
+    deleteChat(chat_id: ID!): Boolean!
   }
 
   # Subscribe
@@ -336,6 +391,9 @@ const typeDefs = `
 
     # Message #
     messageCreated(chat_id: ID!): Message
+
+    # Chat #
+    chatCreated(user_id: ID!): Chat
   }
 `;
 

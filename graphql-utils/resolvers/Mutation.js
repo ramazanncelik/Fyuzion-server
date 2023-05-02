@@ -7,6 +7,7 @@ import Connection from '../../models/Connection.js';
 import Notification from '../../models/Notification.js';
 import SavedPost from '../../models/SavedPost.js';
 import Message from '../../models/Message.js';
+import Chat from '../../models/Chat.js';
 
 const Mutation = {
     // User
@@ -304,6 +305,41 @@ const Mutation = {
                     return false
                 }
             }
+        }
+    },
+
+    // Chat
+    createChat: async (_, { data }) => {
+        const fromChat = new Chat(data);
+        const toChat = new Chat({ ...data, From: data.To, To: data.From });
+        const newFromChat = await fromChat.save();
+        const newToChat = await toChat.save();
+        if (newFromChat) {
+            pubSub.publish("chatCreated", { chatCreated: newFromChat });
+            if (newToChat) {
+                pubSub.publish("chatCreated", { chatCreated: newToChat });
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
+    },
+    updateChat: async (_, { chat_id, data }) => {
+        const chat = await Chat.findByIdAndUpdate(chat_id, data, { new: true });
+        if (chat) {
+            return true;
+        } else {
+            return false;
+        }
+    },
+    deleteChat: async (_, { chat_id }) => {
+        const chat = await Chat.findByIdAndDelete(chat_id);
+        if (chat) {
+            return true;
+        } else {
+            return false;
         }
     },
 };

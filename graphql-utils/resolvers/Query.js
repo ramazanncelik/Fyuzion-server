@@ -5,6 +5,8 @@ import User from "../../models/User.js";
 import Connection from "../../models/Connection.js";
 import Notification from "../../models/Notification.js";
 import SavedPost from "../../models/SavedPost.js";
+import Message from "../../models/Message.js";
+import Chat from "../../models/Chat.js";
 
 const Query = {
     //Get All Users
@@ -184,6 +186,46 @@ const Query = {
             const savedPost = await SavedPost.findOne(data);
             if (savedPost) {
                 return savedPost;
+            } else {
+                return null;
+            }
+        } catch {
+            return null;
+        }
+    },
+
+    // Message
+    messages: async (_, { chat_id }) => {
+        try {
+            const messages = await Message.find({ ChatId: chat_id });
+            if (messages) {
+                return messages;
+            } else {
+                return null;
+            }
+        } catch {
+            return null;
+        }
+    },
+
+    // Chat
+    chats: async (_, { user_id }) => {
+        try {
+            const chats = await Chat.find({ ChatId: user_id });
+            if (chats) {
+                return chats;
+            } else {
+                return null;
+            }
+        } catch {
+            return null;
+        }
+    },
+    chat: async (_, { data }) => {
+        try {
+            const chat = await Chat.findOne(data);
+            if (chat) {
+                return chat;
             } else {
                 return null;
             }
