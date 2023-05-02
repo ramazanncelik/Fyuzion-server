@@ -275,7 +275,7 @@ const typeDefs = `
     From: String!
     To: String!
     Type: String!
-    Files: [FileInput!]
+    File: FileInput!
     Description: String
     FullDate: String!
     Date: String!

@@ -9,6 +9,10 @@ const MessageSchema = new Schema({
         type: String,
         required: true
     },
+    File: {
+        type: Object,
+        required: false
+    },
     Description: {
         type: String,
         required: false
