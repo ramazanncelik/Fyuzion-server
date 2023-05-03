@@ -142,7 +142,7 @@ const Subscription = {
                 return pubSub.asyncIterator(['chatUpdated']);
             },
             (payload, variables) => {
-                return variables.chat_id ? payload.chatCreated._id == variables.chat_id : true;
+                return variables.chat_id ? payload.chatUpdated._id == variables.chat_id : true;
             }
         )
     },
