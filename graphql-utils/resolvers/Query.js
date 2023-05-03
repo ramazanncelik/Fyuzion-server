@@ -211,7 +211,7 @@ const Query = {
     // Chat
     chats: async (_, { user_id }) => {
         try {
-            const chats = await Chat.find({ ChatId: user_id });
+            const chats = await Chat.find({ From: user_id });
             if (chats) {
                 return chats;
             } else {
