@@ -330,9 +330,9 @@ const Mutation = {
         const fromChat = await Chat.findOneAndUpdate(chatData, data, { new: true });
         const toChat = await Chat.findOneAndUpdate({ From: chatData.To, To: chatData.From }, data, { new: true });
         if (fromChat) {
-            pubSub.pubblish("chatUpdated", { chatUpdated: fromChat })
+            pubSub.publish("chatUpdated", { chatUpdated: fromChat })
             if (toChat) {
-                pubSub.pubblish("chatUpdated", { chatUpdated: toChat })
+                pubSub.publish("chatUpdated", { chatUpdated: toChat })
                 return true;
             } else {
                 return false;
