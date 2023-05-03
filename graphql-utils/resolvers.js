@@ -8,6 +8,7 @@ import Comment from "./resolvers/Comment.js";
 import Connection from "./resolvers/Connection.js";
 import Notification from "./resolvers/Notification.js";
 import Message from "./resolvers/Message.js";
+import Chat from "./resolvers/Chat.js";
 
 const resolvers = {
     Query,
@@ -19,7 +20,8 @@ const resolvers = {
     Subscription,
     Notification,
     Connection,
-    Message
+    Message,
+    Chat
 };
 
 export default resolvers;
