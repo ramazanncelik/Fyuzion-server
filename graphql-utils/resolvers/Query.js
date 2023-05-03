@@ -207,6 +207,18 @@ const Query = {
             return null;
         }
     },
+    message: async (_, { message_id }) => {
+        try {
+            const message = await Message.findById(message_id);
+            if (message) {
+                return message;
+            } else {
+                return null;
+            }
+        } catch {
+            return null;
+        }
+    },
 
     // Chat
     chats: async (_, { user_id }) => {

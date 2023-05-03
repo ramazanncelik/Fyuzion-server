@@ -158,8 +158,9 @@ const typeDefs = `
     notification(data: NotificationInput!): Notification
     savedPosts(user_id: ID!): [SavedPost!]
     savedPost(data: SavedPostInput!): SavedPost
-    messages(chat_id: String!): [Message!]
-    chats(user_id: String!): [Chat!]
+    messages(chat_id: ID!): [Message!]
+    message(message_id: ID!): Message
+    chats(user_id: ID!): [Chat!]
     chat(chat_id: ID!): Chat
     chatControl(data: ChatInput!): Chat
   }
