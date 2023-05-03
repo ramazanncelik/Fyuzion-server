@@ -221,7 +221,19 @@ const Query = {
             return null;
         }
     },
-    chat: async (_, { data }) => {
+    chat: async (_, { chat_id }) => {
+        try {
+            const chat = await Chat.findById(chat_id);
+            if (chat) {
+                return chat;
+            } else {
+                return null;
+            }
+        } catch {
+            return null;
+        }
+    },
+    chatControl: async (_, { data }) => {
         try {
             const chat = await Chat.findOne(data);
             if (chat) {

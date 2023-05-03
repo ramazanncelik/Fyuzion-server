@@ -135,6 +135,17 @@ const Subscription = {
             }
         )
     },
+    chatUpdated: {
+        // More on pubSub below
+        subscribe: withFilter(
+            () => {
+                return pubSub.asyncIterator(['chatUpdated']);
+            },
+            (payload, variables) => {
+                return variables.chat_id ? payload.chatCreated._id == variables.chat_id : true;
+            }
+        )
+    },
 };
 
 export default Subscription;

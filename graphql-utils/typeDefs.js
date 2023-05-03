@@ -160,7 +160,8 @@ const typeDefs = `
     savedPost(data: SavedPostInput!): SavedPost
     messages(chat_id: String!): [Message!]
     chats(user_id: String!): [Chat!]
-    chat(data: ChatInput!): Chat
+    chat(chat_id: ID!): Chat
+    chatControl(data: ChatInput!): Chat
   }
 
   # User #
@@ -394,6 +395,7 @@ const typeDefs = `
 
     # Chat #
     chatCreated(user_id: ID!): Chat
+    chatUpdated(chat_id: ID!): Chat
   }
 `;
 
