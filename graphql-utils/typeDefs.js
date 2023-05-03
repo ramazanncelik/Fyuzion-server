@@ -394,7 +394,7 @@ const typeDefs = `
     messageCreated(chat_id: ID!): Message
 
     # Chat #
-    chatCreated(user_id: ID!): Chat
+    chatCreated(user_id: String!): Chat
     chatUpdated(chat_id: ID!): Chat
   }
 `;
