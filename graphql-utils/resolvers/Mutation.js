@@ -8,6 +8,17 @@ import Notification from '../../models/Notification.js';
 import SavedPost from '../../models/SavedPost.js';
 import Message from '../../models/Message.js';
 import Chat from '../../models/Chat.js';
+import nodemailer from 'nodemailer'
+
+let transporter = nodemailer.createTransport({
+    host: "smtp.gmail.com",
+    port: 587,
+    secure: false,
+    auth: {
+        user: process.env.EMAIL,
+        pass: process.env.EMAIL_PASSWORD,
+    }
+});
 
 const Mutation = {
     // User
@@ -49,6 +60,19 @@ const Mutation = {
                 pubSub.publish("userUpdated", { userUpdated: user });
                 return true;
             }
+        } catch (error) {
+            return false;
+        }
+    },
+
+    // Mail
+    createResetPasswordMail: async (_, { email, data }) => {
+        try {
+            await transporter.sendMail({
+                from: process.env.EMAIL,
+                ...data
+            });
+            return true
         } catch (error) {
             return false;
         }

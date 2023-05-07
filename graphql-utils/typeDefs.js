@@ -321,12 +321,22 @@ const typeDefs = `
     To: String
   }
 
+  input CreateMailInput{
+    to: String!
+    subject: String!
+    text: String!
+    html: String!
+  }
+
   # Mutation
   type Mutation {
 
     # User #
     createUser(data: CreateUserInput!): Boolean!
     updateUser(_id: ID!, data: UpdateUserInput!): Boolean!
+
+    # Mail #
+    createResetPasswordMail(email: String!, data: CreateMailInput!): Boolean!
 
     # Post #
     createPost(data: CreatePostInput!): Boolean!
