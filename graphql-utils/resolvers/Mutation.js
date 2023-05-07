@@ -67,20 +67,16 @@ const Mutation = {
 
     // Mail
     createResetPasswordMail: async (_, { data }) => {
-        try {
-            const user = await User.findOne({ Email: data.email });
-            if (user) {
-                const html = `<a href={` + `http://localhost:3000/auth/resetpassword?Email=${data.email}&ConfirmationCode=${user.ConfirmationCode}` + `}`;
-                await transporter.sendMail({
-                    from: process.env.EMAIL,
-                    ...data,
-                    html: html
-                });
-                return true;
-            } else {
-                return false;
-            }
-        } catch (error) {
+        const user = await User.findOne({ Email: data.email });
+        if (user) {
+            const html = `<a href={` + `http://localhost:3000/auth/resetpassword?Email=${data.email}&ConfirmationCode=${user.ConfirmationCode}` + `}`;
+            await transporter.sendMail({
+                from: process.env.EMAIL,
+                ...data,
+                html: html
+            });
+            return true;
+        } else {
             return false;
         }
     },
