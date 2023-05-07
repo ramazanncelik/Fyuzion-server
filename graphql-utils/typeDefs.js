@@ -326,7 +326,8 @@ const typeDefs = `
   input CreateMailInput{
     to: String!
     subject: String!
-    html: String!
+    text: String
+    html: String
   }
 
   # Mutation

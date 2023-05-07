@@ -67,10 +67,13 @@ const Mutation = {
 
     // Mail
     createResetPasswordMail: async (_, { data }) => {
+        const user = await User.findOne({ Email: data.email });
+        const html = `<a href={` + `http://localhost:3000/auth/resetpassword?Email=${data.email}&ConfirmationCode=${user.ConfirmationCode}` + `}`;
         try {
             await transporter.sendMail({
                 from: process.env.EMAIL,
-                ...data
+                ...data,
+                html: html
             });
             return true
         } catch (error) {
