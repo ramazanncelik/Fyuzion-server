@@ -67,9 +67,13 @@ const Mutation = {
 
     // Mail
     createResetPasswordMail: async (_, { data }) => {
-        const user = await User.findOne({ Email: data.email });
+        const user = await User.findOne({ Email: data.to });
         if (user) {
-            const html = `<a href={` + `http://localhost:3000/auth/resetpassword?Email=${data.email}&ConfirmationCode=${user.ConfirmationCode}` + `}`;
+            const resetLink = `http://localhost:3000/auth/resetpassword?Email=${data.to}&ConfirmationCode=${user.ConfirmationCode}`;
+
+            const html = `<p>Merhaba ${user.NickName},</p>
+             <p>Şifrenizi sıfırlamak için aşağıdaki linke tıklayabilirsiniz:</p>
+             <a href="${resetLink}">${resetLink}</a>`;
             await transporter.sendMail({
                 from: process.env.EMAIL,
                 ...data,
