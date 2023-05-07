@@ -324,7 +324,6 @@ const typeDefs = `
   input CreateMailInput{
     to: String!
     subject: String!
-    text: String!
     html: String!
   }
 
@@ -336,7 +335,7 @@ const typeDefs = `
     updateUser(_id: ID!, data: UpdateUserInput!): Boolean!
 
     # Mail #
-    createResetPasswordMail(email: String!, data: CreateMailInput!): Boolean!
+    createResetPasswordMail(data: CreateMailInput!): Boolean!
 
     # Post #
     createPost(data: CreatePostInput!): Boolean!

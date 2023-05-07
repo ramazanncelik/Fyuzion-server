@@ -66,7 +66,7 @@ const Mutation = {
     },
 
     // Mail
-    createResetPasswordMail: async (_, { email, data }) => {
+    createResetPasswordMail: async (_, { data }) => {
         try {
             await transporter.sendMail({
                 from: process.env.EMAIL,
