@@ -41,6 +41,10 @@ const UserSchema = new Schema({
         type: Number,
         required: true
     },
+    ConfirmationCode: {
+        type: String,
+        required: true
+    },
     IsPrivate: {
         type: Boolean,
         required: true

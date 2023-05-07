@@ -177,6 +177,7 @@ const typeDefs = `
     Website: String
     Follower: Int
     MyFollowed: Int
+    ConfirmationCode: String!
     IsPrivate: Boolean
     EmailVerify: Boolean
     OnlineStatus: Boolean
@@ -190,6 +191,7 @@ const typeDefs = `
     PhoneNumber: String
     Biography: String
     Website: String
+    ConfirmationCode: String
     IsPrivate: Boolean
     OnlineStatus: Boolean
     Follower: Int
