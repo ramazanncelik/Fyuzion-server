@@ -85,7 +85,7 @@ const Mutation = {
     createResetPasswordMail: async (_, { data }) => {
         const user = await User.findOne({ Email: data.to });
         if (user) {
-            const resetLink = `http://localhost:3000/auth/resetpassword?Email=${data.to}&ConfirmationCode=${user.ConfirmationCode}`;
+            const resetLink = `https://fyuzion.vercel.app/auth/resetpassword?Email=${data.to}&ConfirmationCode=${user.ConfirmationCode}`;
 
             const html = `<p>Merhaba ${user.NickName},</p>
              <p>Şifrenizi sıfırlamak için aşağıdaki linke tıklayabilirsiniz:</p>
