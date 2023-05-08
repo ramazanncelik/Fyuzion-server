@@ -198,6 +198,12 @@ const typeDefs = `
     MyFollowed: Int
   } 
 
+  input UpdatePasswordInput {
+    Email: String!
+    ConfirmationCode: String! 
+    Password: String!
+  }
+
   input FileInput {
     FilePath: String!
     FileName: String!
@@ -336,6 +342,7 @@ const typeDefs = `
     # User #
     createUser(data: CreateUserInput!): Boolean!
     updateUser(_id: ID!, data: UpdateUserInput!): Boolean!
+    updatePassword(data: UpdatePasswordInput!): Boolean!
 
     # Mail #
     createResetPasswordMail(data: CreateMailInput!): Boolean!

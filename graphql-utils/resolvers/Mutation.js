@@ -65,6 +65,22 @@ const Mutation = {
         }
     },
 
+    updatePassword: async (_, { data }) => {
+        try {
+            const userUpdated = await User.findOneAndUpdate({ Email: data.Email, ConfirmationCode: data.ConfirmationCode },
+                { Password: data.Password, ConfirmationCode: (Math.floor(Math.random() * 90000) + 10000).toString() },
+                { new: true });
+
+            if (userUpdated) {
+                return true;
+            } else {
+                return false;
+            }
+        } catch (error) {
+            return false;
+        }
+    },
+
     // Mail
     createResetPasswordMail: async (_, { data }) => {
         const user = await User.findOne({ Email: data.to });
