@@ -336,6 +336,7 @@ const Mutation = {
         if (data.type === "from me") {
             const message = await Message.findByIdAndDelete(data.message_id);
             if (message) {
+                pubSub.publish("messageDeleted", { messageDeleted: message });
                 return true;
             } else {
                 return false;
@@ -345,6 +346,7 @@ const Mutation = {
             for (let i = 0; i < messages.length; i++) {
                 const messageDeleted = await Message.findByIdAndDelete(messages[i]._id);
                 if (messageDeleted) {
+                    pubSub.publish("messageDeleted", { messageDeleted: messageDeleted });
                     if (i + 1 === messages.length) {
                         return true;
                     }

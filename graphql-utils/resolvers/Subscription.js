@@ -122,6 +122,17 @@ const Subscription = {
             }
         )
     },
+    messageDeleted: {
+        // More on pubSub below
+        subscribe: withFilter(
+            () => {
+                return pubSub.asyncIterator(['messageDeleted']);
+            },
+            (payload, variables) => {
+                return variables.chat_id ? payload.messageDeleted.ChatId == variables.chat_id : true;
+            }
+        )
+    },
 
     // Chat
     chatCreated: {

@@ -412,6 +412,7 @@ const typeDefs = `
 
     # Message #
     messageCreated(chat_id: ID!): Message
+    messageDeleted(chat_id: ID!): Message
 
     # Chat #
     chatCreated(user_id: ID!): Chat
