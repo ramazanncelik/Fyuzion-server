@@ -16,7 +16,7 @@ const Subscription = {
                 return pubSub.asyncIterator(['userUpdated']);
             },
             (payload, variables) => {
-                return payload.userUpdated._id == variables.user_id;
+                return variables.user_id ? payload.userUpdated._id == variables.user_id : true;
             }
         )
     },
