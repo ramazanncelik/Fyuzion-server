@@ -70,8 +70,8 @@ const Mutation = {
             const userUpdated = await User.findOneAndUpdate({ Email: data.Email, ConfirmationCode: data.ConfirmationCode },
                 { Password: data.Password, ConfirmationCode: (Math.floor(Math.random() * 90000) + 10000).toString() },
                 { new: true });
-
             if (userUpdated) {
+                pubSub.publish("userUpdated", { userUpdated: userUpdated });
                 return true;
             } else {
                 return false;
@@ -288,6 +288,7 @@ const Mutation = {
     deleteNotification: async (_, { notification_id }) => {
         const notification = await Notification.findByIdAndDelete(notification_id);
         if (notification) {
+            pubSub.publish("notificationDeleted", { notificationDeleted: notification });
             return true;
         } else {
             return false;
@@ -396,7 +397,7 @@ const Mutation = {
             const nFromChat = new Chat({ ...chatData, ...data });
             const newFromChat = await nFromChat.save();
             if (newFromChat) {
-                pubSub.publish("chatCreated", { chatCreated: newFromChat });
+                pubSub.publish("chatUpdated", { chatUpdated: newFromChat });
             }
         }
 
@@ -406,7 +407,7 @@ const Mutation = {
             const nToChat = new Chat({ From: chatData.To, To: chatData.From, ...data });
             const newToChat = await nToChat.save();
             if (newToChat) {
-                pubSub.publish("chatCreated", { chatCreated: newToChat });
+                pubSub.publish("chatUpdated", { chatUpdated: newToChat });
             }
         }
 
@@ -415,6 +416,7 @@ const Mutation = {
     deleteChat: async (_, { chat_id }) => {
         const chat = await Chat.findByIdAndDelete(chat_id);
         if (chat) {
+            pubSub.publish("chatDeleted", { chatDeleted: chat })
             return true;
         } else {
             return false;

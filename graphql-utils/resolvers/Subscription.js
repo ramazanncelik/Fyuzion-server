@@ -33,6 +33,17 @@ const Subscription = {
             }
         )
     },
+    postDeleted: {
+        // More on pubSub below
+        subscribe: withFilter(
+            () => {
+                return pubSub.asyncIterator(['postDeleted']);
+            },
+            (payload, variables) => {
+                return variables.user_id ? payload.postDeleted.OwnerId === variables.user_id : true;
+            }
+        )
+    },
 
     // Like
     postLikeCreated: {
@@ -109,6 +120,17 @@ const Subscription = {
             }
         )
     },
+    notificationDeleted: {
+        // More on pubSub below
+        subscribe: withFilter(
+            () => {
+                return pubSub.asyncIterator(['notificationDeleted']);
+            },
+            (payload, variables) => {
+                return variables.user_id ? payload.notificationDeleted.To == variables.user_id : true;
+            }
+        )
+    },
 
     // Message
     messageCreated: {
@@ -154,6 +176,17 @@ const Subscription = {
             },
             (payload, variables) => {
                 return variables.chat_id ? payload.chatUpdated._id == variables.chat_id : true;
+            }
+        )
+    },
+    chatDeleted: {
+        // More on pubSub below
+        subscribe: withFilter(
+            () => {
+                return pubSub.asyncIterator(['chatDeleted']);
+            },
+            (payload, variables) => {
+                return variables.user_id ? payload.chatDeleted.From == variables.user_id : true;
             }
         )
     },

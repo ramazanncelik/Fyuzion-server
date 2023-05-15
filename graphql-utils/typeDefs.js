@@ -393,18 +393,20 @@ const typeDefs = `
 
     # Post #
     postCreated(user_id: ID!): Post
+    postDeleted(user_id: ID!): Post 
 
     # PostLike #
     postLikeCreated(post_id: ID!): PostLike
 
     # Comment #
     commentCreated(post_id: ID!): Comment
-
+ 
     # SavedPost #
     savedPostCreated(user_id: ID!): SavedPost
 
     # Notification #
     notificationCreated(user_id: ID!): Notification
+    notificationDeleted(user_id: ID!): Notification
 
     # Connection #
     followerCreated(user_id: ID!): Connection
@@ -417,6 +419,7 @@ const typeDefs = `
     # Chat #
     chatCreated(user_id: ID!): Chat
     chatUpdated(chat_id: ID!): Chat
+    chatDeleted(user_id: ID!): Chat
   }
 `;
 
