@@ -400,7 +400,7 @@ const typeDefs = `
 
     # Comment #
     commentCreated(post_id: ID!): Comment
-
+ 
     # SavedPost #
     savedPostCreated(user_id: ID!): SavedPost
 
