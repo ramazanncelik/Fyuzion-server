@@ -129,9 +129,8 @@ const Mutation = {
     },
     deletePost: async (_, { post_id }) => {
         try {
-            const post = await Post.findById(post_id);
-            await Post.findByIdAndDelete(post_id);
-            pubSub.publish("postDeleted", { postUpdated: post });
+            const post = await Post.findByIdAndDelete(post_id);
+            pubSub.publish("postDeleted", { postDeleted: post });
             return true;
         } catch {
             return false;
