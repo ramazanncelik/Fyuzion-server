@@ -393,7 +393,7 @@ const typeDefs = `
 
     # Post #
     postCreated(user_id: ID!): Post
-    postDeleted(user_id: ID!): Post
+    postDeleted(user_id: ID!): Post 
 
     # PostLike #
     postLikeCreated(post_id: ID!): PostLike

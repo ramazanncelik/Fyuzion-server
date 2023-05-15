@@ -412,7 +412,7 @@ const Mutation = {
         }
 
         return true;
-    }, 
+    },
     deleteChat: async (_, { chat_id }) => {
         const chat = await Chat.findByIdAndDelete(chat_id);
         if (chat) {

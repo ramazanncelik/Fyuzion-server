@@ -178,7 +178,7 @@ const Subscription = {
                 return variables.chat_id ? payload.chatUpdated._id == variables.chat_id : true;
             }
         )
-    }, 
+    },
     chatDeleted: {
         // More on pubSub below
         subscribe: withFilter(
