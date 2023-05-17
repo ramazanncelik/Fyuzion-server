@@ -351,9 +351,10 @@ const Mutation = {
                         return true;
                     }
                 } else {
-                    return false
+                    return false;
                 }
             }
+            return true;
         }
     },
 
