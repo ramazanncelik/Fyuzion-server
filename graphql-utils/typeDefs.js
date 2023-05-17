@@ -136,7 +136,7 @@ const typeDefs = `
     Type: String!
   }
 
-  input ChatInput{
+  input ChatFromToInput{
     From: String!
     To: String!
   }
@@ -162,7 +162,7 @@ const typeDefs = `
     message(message_id: ID!): Message
     chats(user_id: ID!): [Chat!]
     chat(chat_id: ID!): Chat
-    chatControl(data: ChatInput!): Chat
+    chatControl(data: ChatFromToInput!): Chat
   }
 
   # User #
@@ -302,19 +302,7 @@ const typeDefs = `
   }
 
   # Chat #
-  input CreateChatInput {
-    From: String!
-    To: String!
-    Type: String!
-    LastMessage: String
-    LastMessageOwner: String
-    FullDate: String!
-    Date: String!
-    Time: String!
-    Month: Int!
-  }
-
-  input UpdateChatInput{
+  input ChatDataInput{
     Type: String!
     LastMessage: String
     LastMessageOwner: String!
@@ -380,8 +368,7 @@ const typeDefs = `
     deleteMessage(data: DeleteMessageInput!): Boolean!
 
     # Chat #
-    createChat(data: CreateChatInput!): Boolean!
-    updateChat(chatData: ChatInput!, data: UpdateChatInput!): Boolean!
+    createOrUpdateChat(fromToData: ChatFromToInput!, data: ChatDataInput!): Boolean!
     deleteChat(chat_id: ID!): Boolean!
   }
 

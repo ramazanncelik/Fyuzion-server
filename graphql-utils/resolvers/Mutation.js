@@ -358,56 +358,26 @@ const Mutation = {
     },
 
     // Chat
-    createChat: async (_, { data }) => {
-        const fromChat = new Chat(data);
-        const toChat = new Chat({ ...data, From: data.To, To: data.From });
-        const fromChatControl = await Chat.findOne({ From: data.From, To: data.To });
-        const toChatControl = await Chat.findOne({ From: data.To, To: data.From });
+    createOrUpdateChat: async (_, { fromToData, data }) => {
+        const fromChatExists = await Chat.findOne(fromToData);
+        const toChatExists = await Chat.findOne({ From: fromToData.To, To: fromToData.From });
 
-        if (fromChatControl) {
-            const chatData = { From: data.From, To: data.To };
-            Mutation.updateChat(null, { chatData: chatData, data: data });
-        } else {
-            const newFromChat = await fromChat.save();
-            if (newFromChat) {
-                pubSub.publish("chatCreated", { chatCreated: newFromChat });
-            }
-        }
-
-        if (toChatControl) {
-            const chatData = { From: data.To, To: data.From };
-            const nData = { ...data, From: data.To, To: data.From }
-            Mutation.updateChat(null, { chatData: chatData, data: nData });
-        } else {
-            const newToChat = await toChat.save();
-            if (newToChat) {
-                pubSub.publish("chatCreated", { chatCreated: newToChat });
-            }
-        }
-
-        return true;
-    },
-    updateChat: async (_, { chatData, data }) => {
-        const fromChat = await Chat.findOneAndUpdate(chatData, data, { new: true });
-        const toChat = await Chat.findOneAndUpdate({ From: chatData.To, To: chatData.From }, data, { new: true });
-        if (fromChat) {
+        if (fromChatExists) {
+            const fromChat = await Chat.findOneAndUpdate(fromToData, data, { new: true });
             pubSub.publish("chatUpdated", { chatUpdated: fromChat })
         } else {
-            const nFromChat = new Chat({ ...chatData, ...data });
+            const nFromChat = new Chat({ ...fromToData, ...data });
             const newFromChat = await nFromChat.save();
-            if (newFromChat) {
-                pubSub.publish("chatUpdated", { chatUpdated: newFromChat });
-            }
+            pubSub.publish("chatCreated", { chatCreated: newFromChat });
         }
 
-        if (toChat) {
+        if (toChatExists) {
+            const toChat = await Chat.findOneAndUpdate({ From: fromToData.To, To: fromToData.From }, data, { new: true });
             pubSub.publish("chatUpdated", { chatUpdated: toChat })
         } else {
-            const nToChat = new Chat({ From: chatData.To, To: chatData.From, ...data });
+            const nToChat = new Chat({ From: fromToData.To, To: fromToData.From, ...data });
             const newToChat = await nToChat.save();
-            if (newToChat) {
-                pubSub.publish("chatUpdated", { chatUpdated: newToChat });
-            }
+            pubSub.publish("chatCreated", { chatCreated: newToChat });
         }
 
         return true;
