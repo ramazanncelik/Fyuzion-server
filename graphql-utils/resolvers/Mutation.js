@@ -345,9 +345,10 @@ const Mutation = {
             const fromMessage = data.From + "_" + data.To
             const toMessage = data.To + "_" + data.From
             const fromMessageDeleted = await Message.findOneAndDelete({ ChatId: fromMessage, Time: data.time });
-            await Message.findOneAndDelete({ ChatId: toMessage, Time: data.time });
+            const toMessageDeleted = await Message.findOneAndDelete({ ChatId: toMessage, Time: data.time });
             if (fromMessageDeleted) {
-                pubSub.publish("messageDeleted", { messageDeleted: fromMessageDeleted });
+                await pubSub.publish("messageDeleted", { messageDeleted: fromMessageDeleted });
+                await pubSub.publish("messageDeleted", { messageDeleted: toMessageDeleted });
                 return true;
             } else {
                 return false;
