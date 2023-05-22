@@ -354,7 +354,6 @@ const Mutation = {
                     return false;
                 }
             }
-            return true;
         }
     },
 
