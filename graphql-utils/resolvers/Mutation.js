@@ -342,17 +342,15 @@ const Mutation = {
                 return false;
             }
         } else {
-            const messages = await Message.find({ From: data.from, To: data.to, Time: data.time });
-            for (let i = 0; i < messages.length; i++) {
-                const messageDeleted = await Message.findByIdAndDelete(messages[i]._id);
-                if (messageDeleted) {
-                    pubSub.publish("messageDeleted", { messageDeleted: messageDeleted });
-                    if (i + 1 === messages.length) {
-                        return true;
-                    }
-                } else {
-                    return false;
-                }
+            const fromMessage = data.From + "_" + data.To
+            const toMessage = data.To + "_" + data.From
+            const fromMessageDeleted = await Message.findOneAndDelete({ ChatId: fromMessage, Time: data.time });
+            await Message.findOneAndDelete({ ChatId: toMessage, Time: data.time });
+            if (fromMessageDeleted) {
+                pubSub.publish("messageDeleted", { messageDeleted: fromMessageDeleted });
+                return true;
+            } else {
+                return false;
             }
         }
     },
