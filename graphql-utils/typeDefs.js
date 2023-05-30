@@ -88,8 +88,8 @@ const typeDefs = `
     To: String!
     Type: String!
     ChatId: String!
-    Description: String!
-    Files: [File!]
+    Description: String
+    File: File
     Date: String!
     Time: String!
     fromUser: User!
