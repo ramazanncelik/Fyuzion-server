@@ -9,20 +9,12 @@ const SavedPostSchema = new Schema({
         type: String,
         required: true
     },
-    FullDate: {
-        type: String,
-        required: true
-    },
     Date: {
         type: String,
         required: true
     },
     Time: {
         type: String,
-        required: true
-    },
-    Month: {
-        type: Number,
         required: true
     },
 });

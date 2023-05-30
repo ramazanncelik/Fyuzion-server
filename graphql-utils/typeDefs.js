@@ -33,10 +33,8 @@ const typeDefs = `
     Comment: Int!
     Files: [File!]
     CommentsIsClosed: Boolean!
-    FullDate: String!
     Date: String!
     Time: String!
-    Month: Int!
     user: User!
     comments: [Comment!]
   }
@@ -53,10 +51,8 @@ const typeDefs = `
     Description: String!
     user: User!
     Like: Int!
-    FullDate: String!
     Date: String!
     Time: String!
-    Month: Int!
   }
 
   type Connection {
@@ -73,10 +69,8 @@ const typeDefs = `
     To: String!
     Type: String!
     PostId: String
-    FullDate: String!
     Date: String!
     Time: String!
-    Month: Int!
     fromUser: User!
   }
 
@@ -84,10 +78,8 @@ const typeDefs = `
     _id: ID!
     OwnerId: String!
     PostId: String!
-    FullDate: String!
     Date: String!
     Time: String!
-    Month: Int!
   }
 
   type Message {
@@ -98,10 +90,8 @@ const typeDefs = `
     ChatId: String!
     Description: String!
     Files: [File!]
-    FullDate: String!
     Date: String!
     Time: String!
-    Month: Int!
     fromUser: User!
   }
 
@@ -112,10 +102,8 @@ const typeDefs = `
     Type: String!
     LastMessage: String!
     LastMessageOwner: String!
-    FullDate: String!
     Date: String!
     Time: String!
-    Month: Int!
     toUser: User!
     lastMessageOwner: User!
   }
@@ -219,10 +207,8 @@ const typeDefs = `
     Files: [FileInput!]
     Comment: Int!
     CommentsIsClosed: Boolean!
-    FullDate: String!
     Date: String!
     Time: String!
-    Month: Int!
   } 
   input UpdatePostInput {
     Like: Int
@@ -242,10 +228,8 @@ const typeDefs = `
     PostId: String!
     Description: String!
     Like: Int!
-    FullDate: String!
     Date: String!
     Time: String!
-    Month: Int!
   } 
   input UpdateCommentInput {
     _id: ID!
@@ -264,20 +248,16 @@ const typeDefs = `
     To: String!
     Type: String!
     PostId: String
-    FullDate: String!
     Date: String!
     Time: String!
-    Month: Int!
   }
 
   # SavedPost #
   input CreateSavedPostInput {
     OwnerId: String!
     PostId: String!
-    FullDate: String!
     Date: String!
     Time: String!
-    Month: Int!
   }
 
   # Message #
@@ -287,10 +267,8 @@ const typeDefs = `
     Type: String!
     File: FileInput
     Description: String
-    FullDate: String!
     Date: String!
     Time: String!
-    Month: Int!
   }
 
   input DeleteMessageInput{
@@ -306,10 +284,8 @@ const typeDefs = `
     Type: String!
     LastMessage: String
     LastMessageOwner: String!
-    FullDate: String!
     Date: String!
     Time: String!
-    Month: Int!
   }
 
   input DeleteChatInput{
