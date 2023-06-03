@@ -347,8 +347,8 @@ const Mutation = {
             const fromMessageDeleted = await Message.findOneAndDelete({ ChatId: fromMessage, Time: data.time });
             const toMessageDeleted = await Message.findOneAndDelete({ ChatId: toMessage, Time: data.time });
             if (fromMessageDeleted || toMessageDeleted) {
-                await pubSub.publish("messageDeleted", { messageDeleted: fromMessageDeleted });
-                await pubSub.publish("messageDeleted", { messageDeleted: toMessageDeleted });
+                pubSub.publish("messageDeleted", { messageDeleted: fromMessageDeleted });
+                pubSub.publish("messageDeleted", { messageDeleted: toMessageDeleted });
                 return true;
             } else {
                 return false;
