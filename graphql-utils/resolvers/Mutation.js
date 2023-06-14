@@ -333,9 +333,20 @@ const Mutation = {
         }
     },
     updateMessage: async (_, { data }) => {
-        const updatedMessage = await Message.findByIdAndUpdate(data.message_id, { Description: data.Description, IsEdited: true }, { new: true });
-        if (updatedMessage) {
-            pubSub.publish("messageUpdated", { messageUpdated: updatedMessage });
+        const fromMessage = data.from + "_" + data.to
+        const toMessage = data.to + "_" + data.from
+        const fromMessageUpdated = await Message.findOneAndUpdate({ ChatId: fromMessage, Time: data.time }, { Description: data.Description, IsEdited: true }, { new: true });
+        const toMessageUpdated = await Message.findOneAndUpdate({ ChatId: toMessage, Time: data.time }, { Description: data.Description, IsEdited: true }, { new: true });
+
+        if (fromMessageUpdated) {
+            pubSub.publish("messageUpdated", { messageUpdated: fromMessageUpdated });
+        }
+
+        if (toMessageUpdated) {
+            pubSub.publish("messageUpdated", { messageUpdated: toMessageUpdated });
+        }
+
+        if (fromMessageUpdated || toMessageUpdated) {
             return true;
         } else {
             return false;
@@ -351,8 +362,8 @@ const Mutation = {
                 return false;
             }
         } else {
-            const fromMessage = data.From + "_" + data.To
-            const toMessage = data.To + "_" + data.From
+            const fromMessage = data.from + "_" + data.to
+            const toMessage = data.to + "_" + data.from
             const fromMessageDeleted = await Message.findOneAndDelete({ ChatId: fromMessage, Time: data.time });
             const toMessageDeleted = await Message.findOneAndDelete({ ChatId: toMessage, Time: data.time });
             if (fromMessageDeleted || toMessageDeleted) {

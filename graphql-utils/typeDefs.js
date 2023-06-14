@@ -274,7 +274,9 @@ const typeDefs = `
   }
 
   input UpdateMessageInput{
-    message_id: ID!
+    from: String!
+    to: String!
+    time: String!
     Description: String!
   }
 
