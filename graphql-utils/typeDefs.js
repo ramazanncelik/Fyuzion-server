@@ -383,7 +383,7 @@ const typeDefs = `
 
     # Message #
     messageCreated(chat_id: ID!): Message
-    messageCreated(message_id: ID!): Message
+    messageUpdated(message_id: ID!): Message
     messageDeleted(chat_id: ID!): Message
 
     # Chat #
