@@ -276,7 +276,6 @@ const typeDefs = `
   input UpdateMessageInput{
     message_id: ID!
     Description: String!
-    IsEdited: Boolean!
   }
 
   input DeleteMessageInput{
