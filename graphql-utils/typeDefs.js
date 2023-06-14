@@ -93,6 +93,7 @@ const typeDefs = `
     Date: String!
     Time: String!
     fromUser: User!
+    IsEdited: Boolean!
   }
 
   type Chat {
@@ -269,11 +270,13 @@ const typeDefs = `
     Description: String
     Date: String!
     Time: String!
+    IsEdited: Boolean!
   }
 
   input UpdateMessageInput{
     message_id: ID!
     Description: String!
+    IsEdited: Boolean!
   }
 
   input DeleteMessageInput{

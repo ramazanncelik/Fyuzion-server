@@ -333,7 +333,7 @@ const Mutation = {
         }
     },
     updateMessage: async (_, { data }) => {
-        const updatedMessage = await Message.findByIdAndUpdate(data.message_id, { Description: data.Description }, { new: true });
+        const updatedMessage = await Message.findByIdAndUpdate(data.message_id, { Description: data.Description, IsEdited: true }, { new: true });
         if (updatedMessage) {
             pubSub.publish("messageUpdated", { messageUpdated: updatedMessage });
             return true;

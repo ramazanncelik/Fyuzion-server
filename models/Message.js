@@ -33,6 +33,10 @@ const MessageSchema = new Schema({
         type: String,
         required: true
     },
+    IsEdited: {
+        type: Boolean,
+        required: true
+    },
 });
 
 export default mongoose.model('Message', MessageSchema);
