@@ -332,6 +332,15 @@ const Mutation = {
             return false;
         }
     },
+    updateMessage: async (_, { data }) => {
+        const updatedMessage = await Message.findByIdAndUpdate(data.message_id, { Description: data.Description }, { new: true });
+        if (updatedMessage) {
+            pubSub.publish("messageUpdated", { messageUpdated: updatedMessage });
+            return true;
+        } else {
+            return false;
+        }
+    },
     deleteMessage: async (_, { data }) => {
         if (data.type === "from me") {
             const message = await Message.findByIdAndDelete(data.message_id);

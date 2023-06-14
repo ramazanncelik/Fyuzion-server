@@ -271,6 +271,11 @@ const typeDefs = `
     Time: String!
   }
 
+  input UpdateMessageInput{
+    message_id: ID!
+    Description: String!
+  }
+
   input DeleteMessageInput{
     message_id: ID
     type: String!
@@ -341,6 +346,7 @@ const typeDefs = `
 
     # Message #
     createMessage(data: CreateMessageInput!): Boolean!
+    updateMessage(data: UpdateMessageInput!): Boolean!
     deleteMessage(data: DeleteMessageInput!): Boolean!
 
     # Chat #
@@ -377,6 +383,7 @@ const typeDefs = `
 
     # Message #
     messageCreated(chat_id: ID!): Message
+    messageCreated(message_id: ID!): Message
     messageDeleted(chat_id: ID!): Message
 
     # Chat #

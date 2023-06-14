@@ -144,6 +144,17 @@ const Subscription = {
             }
         )
     },
+    messageUpdated: {
+        // More on pubSub below
+        subscribe: withFilter(
+            () => {
+                return pubSub.asyncIterator(['messageUpdated']);
+            },
+            (payload, variables) => {
+                return variables.message_id ? payload.messageUpdated._id == variables.message_id : true;
+            }
+        )
+    },
     messageDeleted: {
         // More on pubSub below
         subscribe: withFilter(
