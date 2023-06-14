@@ -338,15 +338,9 @@ const Mutation = {
         const fromMessageUpdated = await Message.findOneAndUpdate({ ChatId: fromMessage, Time: data.time }, { Description: data.Description, IsEdited: true }, { new: true });
         const toMessageUpdated = await Message.findOneAndUpdate({ ChatId: toMessage, Time: data.time }, { Description: data.Description, IsEdited: true }, { new: true });
 
-        if (fromMessageUpdated) {
-            pubSub.publish("messageUpdated", { messageUpdated: fromMessageUpdated });
-        }
-
-        if (toMessageUpdated) {
-            pubSub.publish("messageUpdated", { messageUpdated: toMessageUpdated });
-        }
-
         if (fromMessageUpdated || toMessageUpdated) {
+            pubSub.publish("messageUpdated", { messageUpdated: fromMessageUpdated });
+            pubSub.publish("messageUpdated", { messageUpdated: toMessageUpdated });
             return true;
         } else {
             return false;
