@@ -8,6 +8,7 @@ import Notification from '../../models/Notification.js';
 import SavedPost from '../../models/SavedPost.js';
 import Message from '../../models/Message.js';
 import Chat from '../../models/Chat.js';
+import Complaint from '../../models/Complaint.js';
 import nodemailer from 'nodemailer'
 
 let transporter = nodemailer.createTransport({
@@ -399,6 +400,25 @@ const Mutation = {
         const chat = await Chat.findByIdAndDelete(chat_id);
         if (chat) {
             pubSub.publish("chatDeleted", { chatDeleted: chat })
+            return true;
+        } else {
+            return false;
+        }
+    },
+
+    // Complaint
+    createComplaint: async (_, { data }) => {
+        const complaint = new Complaint(data);
+        const newComplaint = await complaint.save();
+        if (newComplaint) {
+            return true;
+        } else {
+            return false;
+        }
+    },
+    deleteComplaint: async (_, { complaint_id }) => {
+        const deletedComplaint = await Complaint.findByIdAndDelete(complaint_id);
+        if (deletedComplaint) {
             return true;
         } else {
             return false;

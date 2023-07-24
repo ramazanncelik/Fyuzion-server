@@ -45,6 +45,10 @@ const UserSchema = new Schema({
         type: String,
         required: true
     },
+    Role: {
+        type: String,
+        required: true
+    },
     IsPrivate: {
         type: Boolean,
         required: true

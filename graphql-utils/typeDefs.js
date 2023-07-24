@@ -9,6 +9,8 @@ const typeDefs = `
     PhoneNumber: String
     Biography: String
     Website: String
+    ConfirmationCode: String
+    Role: String
     Follower: Int
     MyFollowed: Int
     IsPrivate: Boolean
@@ -109,6 +111,16 @@ const typeDefs = `
     lastMessageOwner: User!
   }
 
+  type Complaint {
+    _id: ID!
+    UserId: String!
+    Title: String!
+    Description: String!
+    Date: String!
+    Time: String!
+    user: User!
+  }
+
   input LoginInput{
     Email: String!
     Password: String!
@@ -152,6 +164,8 @@ const typeDefs = `
     chats(user_id: ID!): [Chat!]
     chat(chat_id: ID!): Chat
     chatControl(data: ChatFromToInput!): Chat
+    complaints(post_id: ID!): [Complaint!]
+    complaint(complaint_id: ID!): Complaint
   }
 
   # User #
@@ -167,6 +181,7 @@ const typeDefs = `
     Follower: Int
     MyFollowed: Int
     ConfirmationCode: String!
+    Role: String!
     IsPrivate: Boolean
     EmailVerify: Boolean
     OnlineStatus: Boolean
@@ -181,6 +196,7 @@ const typeDefs = `
     Biography: String
     Website: String
     ConfirmationCode: String
+    Role: String
     IsPrivate: Boolean
     OnlineStatus: Boolean
     Follower: Int
@@ -309,6 +325,14 @@ const typeDefs = `
     html: String
   }
 
+  input CreateComplaintInput{
+    UserId: String!
+    Title: String!
+    Description: String!
+    Date: String!
+    Time: String!
+  }
+
   # Mutation
   type Mutation {
 
@@ -356,6 +380,10 @@ const typeDefs = `
     # Chat #
     createOrUpdateChat(fromToData: ChatFromToInput!, data: ChatDataInput!): Boolean!
     deleteChat(chat_id: ID!): Boolean!
+
+    # Complaint #
+    createComplaint(data: CreateComplaintInput!): Boolean!
+    deleteComplaint(complaint_id: ID!): Boolean!
   }
 
   # Subscribe
