@@ -114,6 +114,7 @@ const typeDefs = `
   type Complaint {
     _id: ID!
     UserId: String!
+    PostId: String!
     Title: String!
     Description: String!
     Date: String!
@@ -327,6 +328,7 @@ const typeDefs = `
 
   input CreateComplaintInput{
     UserId: String!
+    PostId: String!
     Title: String!
     Description: String!
     Date: String!
