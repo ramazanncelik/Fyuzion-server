@@ -51,22 +51,22 @@ const Mutation = {
                     if (_id == findNickNameUser._id) {
                         const user = await User.findByIdAndUpdate(_id, data, { new: true });
                         pubSub.publish("userUpdated", { userUpdated: user });
-                        return true;
+                        return { success: true, nickNameExist: false }
                     } else {
-                        return false;
+                        return { success: false, nickNameExist: true }
                     }
                 } else {
                     const user = await User.findByIdAndUpdate(_id, data, { new: true });
                     pubSub.publish("userUpdated", { userUpdated: user });
-                    return true;
+                    return { success: true, nickNameExist: false }
                 }
             } else {
                 const user = await User.findByIdAndUpdate(_id, data, { new: true });
                 pubSub.publish("userUpdated", { userUpdated: user });
-                return true;
+                return { success: true, nickNameExist: false }
             }
         } catch (error) {
-            return false;
+            return { success: false, nickNameExist: false }
         }
     },
 

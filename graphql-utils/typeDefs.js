@@ -347,6 +347,11 @@ const typeDefs = `
     nickNameExist: Boolean!
   }
 
+  type UpdateUserResult{ 
+    success: Boolean!
+    nickNameExist: Boolean!
+  }
+
   type UpdatePasswordResult{
       success: Boolean!
       userExist: Boolean!
@@ -357,7 +362,7 @@ const typeDefs = `
 
     # User #
     createUser(data: CreateUserInput!): CreateUserResult!
-    updateUser(_id: ID!, data: UpdateUserInput!): Boolean!
+    updateUser(_id: ID!, data: UpdateUserInput!): UpdateUserResult!
     updatePassword(data: UpdatePasswordInput!): UpdatePasswordResult!
 
     # Mail #
