@@ -10,6 +10,24 @@ import Message from '../../models/Message.js';
 import Chat from '../../models/Chat.js';
 import Complaint from '../../models/Complaint.js';
 import nodemailer from 'nodemailer'
+import bcrypt from 'bcrypt';
+
+const saltRounds = 10;
+const hashText = process.env.HASH_TEXT;
+
+const compareHashes = async (password, hashed) => {
+    const match = await bcrypt.compareSync(`${hashText}${password}`, hashed);
+    return await match;
+}
+
+const convertToHash = async (value) => {
+    let hashPwd;
+    await bcrypt.hash(`${hashText}${value}`, saltRounds).then(hash => {
+        hashPwd = hash;
+    });
+
+    return await hashPwd;
+}
 
 let transporter = nodemailer.createTransport({
     host: "smtp.gmail.com",
@@ -25,22 +43,32 @@ const Mutation = {
     // User
     createUser: async (_, { data }) => {
         try {
-            const user = new User(data);
-            const findEmailUser = await User.findOne({ Email: data.Email });
-            const findNickNameUser = await User.findOne({ NickName: data.NickName });
-            if (findEmailUser || findNickNameUser) {
-                return false;
+            data.Password = await convertToHash(data.Password);
+
+            const emailExist = await User.findOne({ Email: data.Email });
+            const nickNameExist = await User.findOne({ NickName: data.NickName });
+            if (emailExist || nickNameExist) {
+                return { success: false, emailExist: emailExist ? true : false, nickNameExist: nickNameExist ? true : false }
             } else {
+                const user = new User(data);
                 const newUser = await user.save();
-                pubSub.publish("userCreated", { userCreated: newUser });
-                return true;
+                if (newUser) {
+                    pubSub.publish("userCreated", { userCreated: newUser });
+                    return { success: true, emailExist: false, nickNameExist: false }
+                } else {
+                    return { success: false, emailExist: false, nickNameExist: false }
+                }
             }
         } catch {
-            return false;
+            return { success: false, emailExist: false, nickNameExist: false }
         }
     },
     updateUser: async (_, { _id, data }) => {
         try {
+            if (data.Password) {
+                data.Password = await this.convertToHash(data.Password)
+            }
+
             if (data.NickName) {
                 const findNickNameUser = await User.findOne({ NickName: data.NickName });
                 if (findNickNameUser) {
@@ -68,17 +96,23 @@ const Mutation = {
 
     updatePassword: async (_, { data }) => {
         try {
-            const userUpdated = await User.findOneAndUpdate({ Email: data.Email, ConfirmationCode: data.ConfirmationCode },
-                { Password: data.Password, ConfirmationCode: (Math.floor(Math.random() * 90000) + 10000).toString() },
-                { new: true });
-            if (userUpdated) {
-                pubSub.publish("userUpdated", { userUpdated: userUpdated });
-                return true;
+            data.Password = await convertToHash(data.Password);
+
+            const userExist = await User.findOne({ Email: data.Email, ConfirmationCode: data.ConfirmationCode });
+            if (userExist) {
+                await User.findByIdAndUpdate(
+                    userExist._id,
+                    {
+                        Password: data.Password,
+                        ConfirmationCode: (Math.floor(Math.random() * 90000) + 10000).toString(),
+                    },
+                    { new: true });
+                return { success: true, userExist: true }
             } else {
-                return false;
+                return { success: false, userExist: false }
             }
         } catch (error) {
-            return false;
+            return { success: false, userExist: false }
         }
     },
 

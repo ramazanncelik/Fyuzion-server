@@ -1,2 +1,2 @@
 # Fyuzion-server
- Fyuzion-server
+ Fyuzion server

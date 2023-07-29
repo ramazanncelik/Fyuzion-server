@@ -335,13 +335,24 @@ const typeDefs = `
     Time: String!
   }
 
+  type CreateUserResult{
+    success: Boolean!
+    emailExist: Boolean!
+    nickNameExist: Boolean!
+  }
+
+  type UpdatePasswordResult{
+      success: Boolean!
+      userExist: Boolean!
+  }
+
   # Mutation
   type Mutation {
 
     # User #
-    createUser(data: CreateUserInput!): Boolean!
+    createUser(data: CreateUserInput!): CreateUserResult!
     updateUser(_id: ID!, data: UpdateUserInput!): Boolean!
-    updatePassword(data: UpdatePasswordInput!): Boolean!
+    updatePassword(data: UpdatePasswordInput!): UpdatePasswordResult!
 
     # Mail #
     createResetPasswordMail(data: CreateMailInput!): Boolean!
