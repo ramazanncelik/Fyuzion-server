@@ -143,10 +143,16 @@ const typeDefs = `
     To: String!
   }
 
+  type LoginResult{
+    success: Boolean!
+    isPasswordCorrect: Boolean!
+    isThereUser: Boolean!
+  }
+
   type Query {
     users: [User!]
     user(_id: ID!): User
-    login(data: LoginInput!): User
+    login(data: LoginInput!): LoginResult
     posts(user_id: ID!): [Post!]
     post(_id: ID!): Post
     comments(post_id: ID!): [Comment!]

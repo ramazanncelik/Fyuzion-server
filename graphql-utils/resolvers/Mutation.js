@@ -10,24 +10,6 @@ import Message from '../../models/Message.js';
 import Chat from '../../models/Chat.js';
 import Complaint from '../../models/Complaint.js';
 import nodemailer from 'nodemailer'
-import bcrypt from 'bcrypt';
-
-const saltRounds = 10;
-const hashText = process.env.HASH_TEXT;
-
-const compareHashes = async (password, hashed) => {
-    const match = await bcrypt.compareSync(`${hashText}${password}`, hashed);
-    return await match;
-}
-
-const convertToHash = async (value) => {
-    let hashPwd;
-    await bcrypt.hash(`${hashText}${value}`, saltRounds).then(hash => {
-        hashPwd = hash;
-    });
-
-    return await hashPwd;
-}
 
 let transporter = nodemailer.createTransport({
     host: "smtp.gmail.com",
@@ -43,8 +25,6 @@ const Mutation = {
     // User
     createUser: async (_, { data }) => {
         try {
-            data.Password = await convertToHash(data.Password);
-
             const emailExist = await User.findOne({ Email: data.Email });
             const nickNameExist = await User.findOne({ NickName: data.NickName });
             if (emailExist || nickNameExist) {
@@ -65,10 +45,6 @@ const Mutation = {
     },
     updateUser: async (_, { _id, data }) => {
         try {
-            if (data.Password) {
-                data.Password = await this.convertToHash(data.Password)
-            }
-
             if (data.NickName) {
                 const findNickNameUser = await User.findOne({ NickName: data.NickName });
                 if (findNickNameUser) {
@@ -96,8 +72,6 @@ const Mutation = {
 
     updatePassword: async (_, { data }) => {
         try {
-            data.Password = await convertToHash(data.Password);
-
             const userExist = await User.findOne({ Email: data.Email, ConfirmationCode: data.ConfirmationCode });
             if (userExist) {
                 await User.findByIdAndUpdate(

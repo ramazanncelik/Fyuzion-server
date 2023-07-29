@@ -34,14 +34,23 @@ const Query = {
     },
     login: async (_, { data }) => {
         try {
-            const user = await User.findOne(data);
-            if (user) {
-                return user;
+            const existUser = await User.findOne({
+                Email: data.Email
+            }).exec();
+
+            if (existUser) {
+                const isPasswordCorrect = existUser.Password === data.Password ? true : false
+
+                if (isPasswordCorrect) {
+                    return { success: true, isPasswordCorrect: true, isThereUser: true };
+                } else {
+                    return { success: false, isPasswordCorrect: false, isThereUser: true };
+                }
             } else {
-                return null;
+                return { success: false, isPasswordCorrect: false, isThereUser: false };
             }
-        } catch {
-            return null;
+        } catch (error) {
+            return { success: false, isPasswordCorrect: false, isThereUser: false };
         }
     },
 
