@@ -97,7 +97,7 @@ const Mutation = {
             const resetLink = `https://fyuzion.vercel.app/auth/resetpassword?Email=${data.to}&ConfirmationCode=${user.ConfirmationCode}`;
 
             const html = `<p>Merhaba ${user.NickName},</p>
-             <p>Şifrenizi sıfırlamak için aşağıdaki linke tıklayabilirsiniz:</p>
+             <p>${data.text}:</p>
              <a href="${resetLink}">${resetLink}</a>`;
             await transporter.sendMail({
                 from: process.env.EMAIL,
@@ -115,11 +115,11 @@ const Mutation = {
             const emailVerifyLink = `https://fyuzion.vercel.app/auth/emailverify?Email=${data.to}&ConfirmationCode=${user.ConfirmationCode}`;
 
             const html = `<p>Merhaba ${user.NickName},</p>
-             <p>Mail adresinizi doğrulamak için aşağıdaki linke tıklayabilirsiniz:</p>
+             <p>${data.text}:</p>
              <a href="${emailVerifyLink}">${emailVerifyLink}</a>`;
             await transporter.sendMail({
-                from: process.env.EMAIL,
                 ...data,
+                from: process.env.EMAIL,
                 html: html
             });
             return true;
