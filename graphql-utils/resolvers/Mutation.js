@@ -42,7 +42,7 @@ const Mutation = {
         } catch {
             return { success: false, emailExist: false, nickNameExist: false }
         }
-    }, 
+    },
     updateUser: async (_, { _id, data }) => {
         try {
             if (data.NickName) {
@@ -74,14 +74,43 @@ const Mutation = {
         try {
             const userExist = await User.findOne({ Email: data.Email, ConfirmationCode: data.ConfirmationCode });
             if (userExist) {
-                await User.findByIdAndUpdate(
+                const userUpdated = await User.findByIdAndUpdate(
                     userExist._id,
                     {
                         Password: data.Password,
                         ConfirmationCode: (Math.floor(Math.random() * 90000) + 10000).toString(),
                     },
                     { new: true });
-                return { success: true, userExist: true }
+                if (userUpdated) {
+                    pubSub.publish("userUpdated", { userUpdated: userUpdated });
+                    return { success: true, userExist: true }
+                } else {
+                    return { success: false, userExist: true }
+                }
+            } else {
+                return { success: false, userExist: false }
+            }
+        } catch (error) {
+            return { success: false, userExist: false }
+        }
+    },
+    updateEmailVerify: async (_, { data }) => {
+        try {
+            const userExist = await User.findOne({ Email: data.Email, ConfirmationCode: data.ConfirmationCode });
+            if (userExist) {
+                const userUpdated = await User.findByIdAndUpdate(
+                    userExist._id,
+                    {
+                        EmailVerify: true,
+                        ConfirmationCode: (Math.floor(Math.random() * 90000) + 10000).toString(),
+                    },
+                    { new: true });
+                if (userUpdated) {
+                    pubSub.publish("userUpdated", { userUpdated: userUpdated });
+                    return { success: true, userExist: true }
+                } else {
+                    return { success: false, userExist: true }
+                }
             } else {
                 return { success: false, userExist: false }
             }

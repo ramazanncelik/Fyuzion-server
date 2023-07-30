@@ -211,6 +211,11 @@ const typeDefs = `
     Password: String!
   }
 
+  input UpdateEmailVerifyInput {
+    Email: String!
+    ConfirmationCode: String!
+  }
+
   input FileInput {
     FilePath: String!
     FileName: String!
@@ -348,8 +353,13 @@ const typeDefs = `
   }
 
   type UpdatePasswordResult{
-      success: Boolean!
-      userExist: Boolean!
+    success: Boolean!
+    userExist: Boolean!
+  }
+
+  type UpdateEmailVerifyResult{
+    success: Boolean!
+    userExist: Boolean!
   }
 
   # Mutation
@@ -359,6 +369,7 @@ const typeDefs = `
     createUser(data: CreateUserInput!): CreateUserResult!
     updateUser(_id: ID!, data: UpdateUserInput!): UpdateUserResult!
     updatePassword(data: UpdatePasswordInput!): UpdatePasswordResult!
+    updateEmailVerify(data: UpdateEmailVerifyInput!): UpdateEmailVerifyResult!
 
     # Mail #
     createResetPasswordMail(data: CreateMailInput!): Boolean!
