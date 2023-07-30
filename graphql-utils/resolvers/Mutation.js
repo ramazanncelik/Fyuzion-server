@@ -125,7 +125,7 @@ const Mutation = {
         if (user) {
             const resetLink = `https://fyuzion.vercel.app/auth/resetpassword?Email=${data.to}&ConfirmationCode=${user.ConfirmationCode}`;
 
-            const html = `<p>Merhaba ${user.NickName},</p>
+            const html = `<p>Hi ${user.NickName},</p>
              <p>${data.text}:</p>
              <a href="${resetLink}">${resetLink}</a>`;
             await transporter.sendMail({
@@ -143,7 +143,7 @@ const Mutation = {
         if (user) {
             const emailVerifyLink = `https://fyuzion.vercel.app/auth/emailverify?Email=${data.to}&ConfirmationCode=${user.ConfirmationCode}`;
 
-            const html = `<p>Merhaba ${user.NickName},</p>
+            const html = `<p>Hi ${user.NickName},</p>
              <p>${data.text}:</p>
              <a href="${emailVerifyLink}">${emailVerifyLink}</a>`;
             await transporter.sendMail({
