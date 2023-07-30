@@ -42,7 +42,7 @@ const Mutation = {
         } catch {
             return { success: false, emailExist: false, nickNameExist: false }
         }
-    },
+    }, 
     updateUser: async (_, { _id, data }) => {
         try {
             if (data.NickName) {
@@ -99,6 +99,24 @@ const Mutation = {
             const html = `<p>Merhaba ${user.NickName},</p>
              <p>Şifrenizi sıfırlamak için aşağıdaki linke tıklayabilirsiniz:</p>
              <a href="${resetLink}">${resetLink}</a>`;
+            await transporter.sendMail({
+                from: process.env.EMAIL,
+                ...data,
+                html: html
+            });
+            return true;
+        } else {
+            return false;
+        }
+    },
+    createEmailVerifyMail: async (_, { data }) => {
+        const user = await User.findOne({ Email: data.to });
+        if (user) {
+            const emailVerifyLink = `https://fyuzion.vercel.app/auth/emailverify?Email=${data.to}&ConfirmationCode=${user.ConfirmationCode}`;
+
+            const html = `<p>Merhaba ${user.NickName},</p>
+             <p>Mail adresinizi doğrulamak için aşağıdaki linke tıklayabilirsiniz:</p>
+             <a href="${emailVerifyLink}">${emailVerifyLink}</a>`;
             await transporter.sendMail({
                 from: process.env.EMAIL,
                 ...data,

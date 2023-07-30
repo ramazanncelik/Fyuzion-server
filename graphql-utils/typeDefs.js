@@ -199,6 +199,7 @@ const typeDefs = `
     ConfirmationCode: String
     Role: String
     IsPrivate: Boolean
+    EmailVerify: Boolean
     OnlineStatus: Boolean
     Follower: Int
     MyFollowed: Int
@@ -361,6 +362,7 @@ const typeDefs = `
 
     # Mail #
     createResetPasswordMail(data: CreateMailInput!): Boolean!
+    createEmailVerifyMail(data: CreateMailInput!): Boolean!
 
     # Post #
     createPost(data: CreatePostInput!): Boolean!
