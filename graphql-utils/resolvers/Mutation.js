@@ -3,6 +3,7 @@ import User from "../../models/User.js";
 import Post from "../../models/Post.js";
 import PostLike from "../../models/PostLike.js";
 import Comment from "../../models/Comment.js";
+import CommentLike from "../../models/CommentLike.js";
 import Connection from '../../models/Connection.js';
 import Notification from '../../models/Notification.js';
 import SavedPost from '../../models/SavedPost.js';
@@ -193,7 +194,7 @@ const Mutation = {
         }
     },
 
-    // Lile
+    // PostLike
     createPostLike: async (_, { data }) => {
         const post = await Post.findById(data.PostId);
         if (post) {
@@ -275,6 +276,51 @@ const Mutation = {
             for (let i = 0; i < deletedComments.length; i++) {
                 await Comment.findByIdAndDelete(deletedComments[i]._id);
                 if (i + 1 === deletedComments.length) {
+                    return true;
+                }
+            }
+        } else {
+            return false;
+        }
+    },
+
+    // CommentLike
+    createCommentLike: async (_, { data }) => {
+        const comment = await Comment.findById(data.CommentId);
+        if (comment) {
+            const like = new CommentLike(data);
+            const newLike = await like.save();
+            pubSub.publish("commentLikeCreated", { commentLikeCreated: newLike });
+            const updatedComment = await Comment.findByIdAndUpdate(data.CommentId, { Like: comment.Like + 1 }, { new: true })
+            pubSub.publish("commentUpdated", { commentUpdated: updatedComment });
+            return true;
+        } else {
+            return false;
+        }
+    },
+    deleteCommentLike: async (_, { like_id }) => {
+        const deletedCommentLike = await CommentLike.findByIdAndDelete(like_id);
+        if (deletedCommentLike) {
+            const comment = await Comment.findById(deletedCommentLike.CommentId);
+            if (comment) {
+                const updatedComment = await Comment.findByIdAndUpdate(comment._id, { Like: comment.Like - 1 }, { new: true })
+                pubSub.publish("commentUpdated", { commentUpdated: updatedComment });
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
+    },
+    deleteAllCommentLike: async (_, { comment_id }) => {
+        const deletedCommentLikes = await CommentLike.find({ CommentId: comment_id });
+        if (deletedCommentLikes.length !== 0) {
+            for (let i = 0; i < deletedCommentLikes.length; i++) {
+                await CommentLike.findByIdAndDelete(deletedCommentLikes[i]._id);
+                if (i + 1 === deletedCommentLikes.length) {
+                    const updatedComment = await Comment.findByIdAndUpdate(comment_id, { Like: 0 }, { new: true })
+                    pubSub.publish("commentUpdated", { commentUpdated: updatedComment });
                     return true;
                 }
             }

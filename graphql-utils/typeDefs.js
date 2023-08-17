@@ -46,6 +46,7 @@ const typeDefs = `
     PostId: String!
     user: User!
   }
+
   type Comment {
     _id: ID!
     OwnerId: String!
@@ -55,6 +56,13 @@ const typeDefs = `
     Like: Int!
     Date: String!
     Time: String!
+  }
+
+  type CommentLike {
+    _id: ID!
+    OwnerId: String!
+    CommentId: String!
+    user: User!
   }
 
   type Connection {
@@ -149,10 +157,12 @@ const typeDefs = `
     login(data: LoginInput!): User
     posts(user_id: ID!): [Post!]
     post(_id: ID!): Post
-    comments(post_id: ID!): [Comment!]
-    comment(_id: ID!): Comment
     postLikes(post_id: ID!): [PostLike!]
     postLike(data: CreatePostLikeInput!): PostLike
+    comments(post_id: ID!): [Comment!]
+    comment(_id: ID!): Comment
+    commentLikes(comment_id: ID!): [CommentLike!]
+    commentLike(data: CreateCommentLikeInput!): CommentLike
     followers(user_id: ID!): [Connection!]
     myFolloweds(user_id: ID!): [Connection!]
     connection(data: CreateConnectionInput!): Connection
@@ -259,6 +269,12 @@ const typeDefs = `
     _id: ID!
     Like: Int!
   } 
+
+  # CommentLike #
+  input CreateCommentLikeInput {
+    OwnerId: String!
+    CommentId: String!
+  }
 
   # Connection #
   input CreateConnectionInput {
@@ -391,6 +407,11 @@ const typeDefs = `
     deleteComment(comment_id: ID!): Boolean!
     deleteAllComment(post_id: ID!): Boolean!
 
+    # CommentLike #
+    createCommentLike(data: CreateCommentLikeInput!): Boolean!
+    deleteCommentLike(like_id: ID!): Boolean!
+    deleteAllCommentLike(comment_id: ID!): Boolean!
+
     # Connection #
     createConnection(data: CreateConnectionInput!): Boolean!
     deleteConnection(connection_id: ID!): Boolean!
@@ -432,6 +453,9 @@ const typeDefs = `
 
     # Comment #
     commentCreated(post_id: ID!): Comment
+
+    # CommentLike #
+    commentLikeCreated(comment_id: ID!): CommentLike
  
     # SavedPost #
     savedPostCreated(user_id: ID!): SavedPost

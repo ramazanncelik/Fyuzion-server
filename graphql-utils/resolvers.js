@@ -5,6 +5,7 @@ import User from "./resolvers/User.js";
 import Post from "./resolvers/Post.js";
 import PostLike from "./resolvers/PostLike.js";
 import Comment from "./resolvers/Comment.js";
+import CommentLike from "./resolvers/CommentLike.js";
 import Connection from "./resolvers/Connection.js";
 import Notification from "./resolvers/Notification.js";
 import Message from "./resolvers/Message.js";
@@ -17,6 +18,7 @@ const resolvers = {
     Post,
     PostLike,
     Comment,
+    CommentLike,
     Mutation,
     Subscription,
     Notification,
