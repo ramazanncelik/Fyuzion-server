@@ -1,6 +1,7 @@
-import Comment from "../../models/Comment.js";
 import Post from "../../models/Post.js";
 import PostLike from "../../models/PostLike.js";
+import Comment from "../../models/Comment.js";
+import CommentLike from "../../models/CommentLike.js";
 import User from "../../models/User.js";
 import Connection from "../../models/Connection.js";
 import Notification from "../../models/Notification.js";
@@ -72,6 +73,31 @@ const Query = {
         }
     },
 
+
+    // PostLike
+    postLikes: async (_, { post_id }) => {
+        try {
+            const postLikes = await PostLike.find({ PostId: post_id });
+            return postLikes;
+        } catch {
+            return null;
+        }
+    },
+
+    postLike: async (_, { data }) => {
+        try {
+            const postLike = await PostLike.findOne(data);
+
+            if (postLike) {
+                return postLike;
+            } else {
+                return null;
+            }
+        } catch {
+            return null;
+        }
+    },
+
     // Comment
     comments: async (_, { post_id }) => {
         try {
@@ -94,22 +120,23 @@ const Query = {
         }
     },
 
+
     // PostLike
-    postLikes: async (_, { post_id }) => {
+    commentLikes: async (_, { comment_id }) => {
         try {
-            const postLikes = await PostLike.find({ PostId: post_id });
-            return postLikes;
+            const commentLikes = await CommentLike.find({ CommentId: comment_id });
+            return commentLikes;
         } catch {
             return null;
         }
     },
 
-    postLike: async (_, { data }) => {
+    commentLike: async (_, { data }) => {
         try {
-            const postLike = await PostLike.findOne(data);
+            const commentLike = await CommentLike.findOne(data);
 
-            if (postLike) {
-                return postLike;
+            if (commentLike) {
+                return commentLike;
             } else {
                 return null;
             }
