@@ -109,7 +109,7 @@ const Query = {
     },
     comment: async (_, { _id }) => {
         try {
-            const comment = await Comment.find(_id);
+            const comment = await Comment.findById(_id);
             if (comment) {
                 return comment;
             } else {
